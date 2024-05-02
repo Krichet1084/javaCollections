@@ -1,26 +1,41 @@
+import java.util.*;
+
 public class vote{
 
     private int votes;
     private String name;
-    private HashMap<String, candidate> candidates = new HashMap<String, candidate>;
+    private HashMap<String, candidate> candidates = new HashMap<>();
 
     public vote(){
-
+        name=null;
     }
 
     public vote(String n){
         name=n;
     }
 
-    public void addCandidate(String cn, candidate c){
-        candidates.put(cn, c)
+    public void addCandidate(String n, candidate c){
+        candidates.put(n, c);
     }
 
     public int candidateNum(){
         return candidates.size();
     }
+    
+    public void setVotes(int votes) {
+        this.votes = votes;
+    }
 
-    public String getName(){
+
+    public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getVotes() {
+        return votes;
     }
 }

@@ -1,8 +1,12 @@
-import java.util.*;
+import java.util.HashMap;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 
 public class start{
-    HashMap<String, vote> votes = new HashMap<String, vote>;
-    vote currentVote;
+    static Scanner input = new Scanner(System.in);
+    static HashMap<String, vote> votes = new HashMap<>();
+    static vote currentVote;
     
     public static void main(String[] args){
         createVote();
@@ -13,19 +17,20 @@ public class start{
     public static void addCandidate(){
         System.out.print("How many candidates would you like to add?");
         int candidateNum = intInput();
-        String tempFirstName;
-        String tempLastName;
+        String tempFullName="John Doe";
         for(int x=0; x<candidateNum; x++){
-            System.out.print("Candidate's first name: ");
-            tempFirstName=stringInput;
-            System.out.print()
+            System.out.print("Candidate's full name in the format of first name followed by last name eg. John Doe: ");
+            tempFullName=stringInput(2);
+            currentVote.addCandidate(tempFullName, new candidate(tempFullName));
 
         }
     }
 
     public static void createVote(){
-        String voteName = stringInput;
+        System.out.print("What would you like to name your vote? ");
+        String voteName = stringInput(1);
         votes.put(voteName, new vote(voteName));
+        System.out.print("");
         currentVote=votes.get(voteName);
     }
 
@@ -36,34 +41,33 @@ public class start{
         }
     }
 
-    public static String stringInput(){
-        Scanenr input = new Scanner(System.in);
+    public static String stringInput(int length){
         String text;
         while(true){
             text = input.nextLine();
-            if(text.split(" ").length()!=1){
+            if(text.split(" ").length!=length){
                 System.out.print("Please only input a name with no spaces ");
             }
+            else{
+                break;
+            }
         }
-        input.close();
         return text;
     }
 
     public static int intInput(){
-        Scanner input = new Scanner(System.in);
         int num;
         while(true){
             try{
-                num=input.nextInt();
-                break;
-            }
-            catch(InputMissmatchException e){
-                if(input.next().isEmpty()){
-                    continue;
+                if(input.hasNextLine()){
+                    num=input.nextInt();
+                    break;
                 }
             }
+            catch(InputMismatchException e){
+                System.out.print("Please input a valid integer ");
+            }
         }
-        input.close();
         return num;
     }
 }
