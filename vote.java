@@ -21,6 +21,13 @@ public class vote{
     public int candidateNum(){
         return candidates.size();
     }
+
+    public Array getCandidateNames(){
+        String[] candidateKeys = new String[candidateNum()];
+        for(String x: candidates.keySet()){
+            
+        }
+    }
     
     public void setVotes(int votes) {
         this.votes = votes;
