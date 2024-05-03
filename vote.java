@@ -5,6 +5,7 @@ public class vote{
     private int votes;
     private String name;
     private HashMap<String, candidate> candidates = new HashMap<>();
+    private SortedMap<Integer, List<String>> value= new TreeMap<Integer, List<String>>();
 
     public vote(){
         name=null;
@@ -22,11 +23,11 @@ public class vote{
         return candidates.size();
     }
 
-    public Array getCandidateNames(){
+    public String[] getCandidateNames(){
         String[] candidateKeys = new String[candidateNum()];
         int arrayElement=0;
         for(String x: candidates.keySet()){
-            candidateKeys[arrayElement].add(x);
+            candidateKeys[arrayElement]=x;
             arrayElement++;
         }
         return candidateKeys;

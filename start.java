@@ -1,30 +1,34 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
 public class start{
     static Scanner input = new Scanner(System.in);
-    static HashMap<String, vote> votes = new HashMap<>();
+    static HashMap<String, vote> allTimeVotes = new HashMap<>();
     static vote currentVote;
-    static Array currentCandidates;
-    static ArrayList<int> vote = new ArrayList<>();
+    static String[] currentCandidates;
+    static ArrayList<Integer> votePerCandidate = new ArrayList<>();
+    static final String clearScreen ="\u001b[2J";
     
     public static void main(String[] args){
         createVote();
         addCandidate();
-        if(canVote()){
+        if(canStart()){
             startVote();
+        }
+        else{
+            System.out.println("You need more than two candidates to start a vote ");
         }
         
     }
 
     public static void addCandidate(){
-        System.out.print("How many candidates would you like to add?");
+        System.out.print("How many candidates would you like to add? ");
         int candidateNum = intInput();
         String tempFullName="John Doe";
         for(int x=0; x<candidateNum; x++){
-            if(x=0)
+            if(x==0)
                 System.out.print("Candidate's full name in the format of first name followed by last name eg. John Doe: ");
             else
                 System.out.print("Next candidate's full name: ");
@@ -32,34 +36,56 @@ public class start{
             currentVote.addCandidate(tempFullName, new candidate(tempFullName));
         }
         System.out.println("Successfully added candidates. ");
+        System.out.print(clearScreen);
     }
 
     public static void createVote(){
-        System.out.print("What would you like to name your vote? ");
+        System.out.print("Enter a single word for the name of your vote ");
         String voteName = stringInput(1);
-        votes.put(voteName, new vote(voteName));
-        currentVote=votes.get(voteName);
+        allTimeVotes.put(voteName, new vote(voteName));
+        currentVote=allTimeVotes.get(voteName);
+        System.out.print(clearScreen);
     }
 
     public static void startVote(){
         currentCandidates=currentVote.getCandidateNames();
+        for(int x=0; x<currentCandidates.length; x++){
+            votePerCandidate.add(0);
+        }
         do{
-            System.out.print("Indicate which candidate you would like to vote for using their number ");
-            for(int x; x<currentCandidates.length(); x++){
-                System.out.println(x+". "+currentCandidates[x]);
+            System.out.println("Indicate which candidate you would like to vote for using their number or type quit to end vote");
+            for(int x=0; x<currentCandidates.length; x++){
+                System.out.println(x+1+". "+currentCandidates[x]);
             }
-            if(input.hasInt()){
-                
-            }
-        }while(input.HasNext("quit"))
+            int tempVote = getVote();
+            votePerCandidate.set(tempVote, votePerCandidate.get(tempVote));
+            System.out.print(clearScreen);
+            
+        }while(input.hasNext("quit"));
+        System.out.println(currentCandidates);
     }
 
-    public static boolean canVote(){
-        if(currentVote.candidateNum()<2){
-            System.out.println("Cannot start vote with less than two candidates, please add more and try again.");
-            return true;
+    public static int getVote(){
+        if(input.hasNextInt()){
+            int num =input.nextInt();
+            if(num>currentCandidates.length || num==0){
+                System.out.print("Please input a valid number for this ammount of candidates ");
+                return getVote();
+            }
+        return num;
         }
-        return false;
+        else{
+            System.out.print("Error non-integer input");
+            return 0;
+        }
+    }
+
+    public static boolean canStart(){
+        if(!(currentVote.candidateNum()>=2)){
+            System.out.println("Cannot start vote with less than two candidates, please add more and try again.");
+            return false;
+        }
+        return true;
     }
 
     public static String stringInput(int length){
@@ -67,7 +93,7 @@ public class start{
         while(true){
             text = input.nextLine();
             if(text.split(" ").length!=length){
-                System.out.print("Please only input a name with no spaces ");
+                System.out.print("Please follow the specified input conventions ");
             }
             else{
                 break;
@@ -78,15 +104,16 @@ public class start{
 
     public static int intInput(){
         int num;
-        while(true){
-            try{
-                num=input.nextInt();
-                break;
-                }
-            catch(InputMismatchException e){
-                System.out.print("Please input a valid integer ");
+        try{
+            num=input.nextInt();
+            return num;
             }
+        catch(InputMismatchException e){
+            if(input.next().isEmpty()){
+            }
+            else
+                System.out.print("Please input a valid integer ");
+            return intInput();
         }
-        return num;
     }
 }
