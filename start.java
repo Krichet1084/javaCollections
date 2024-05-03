@@ -6,8 +6,9 @@ import java.util.Scanner;
 public class start{
     static Scanner input = new Scanner(System.in);
     static HashMap<String, vote> votes = new HashMap<>();
-    static ArrayList<String> currentCandidates = new ArraList<>();
     static vote currentVote;
+    static Array currentCandidates;
+    static ArrayList<int> vote = new ArrayList<>();
     
     public static void main(String[] args){
         createVote();
@@ -41,7 +42,16 @@ public class start{
     }
 
     public static void startVote(){
-        
+        currentCandidates=currentVote.getCandidateNames();
+        do{
+            System.out.print("Indicate which candidate you would like to vote for using their number ");
+            for(int x; x<currentCandidates.length(); x++){
+                System.out.println(x+". "+currentCandidates[x]);
+            }
+            if(input.hasInt()){
+                
+            }
+        }while(input.HasNext("quit"))
     }
 
     public static boolean canVote(){

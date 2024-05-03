@@ -24,9 +24,12 @@ public class vote{
 
     public Array getCandidateNames(){
         String[] candidateKeys = new String[candidateNum()];
+        int arrayElement=0;
         for(String x: candidates.keySet()){
-            
+            candidateKeys[arrayElement].add(x);
+            arrayElement++;
         }
+        return candidateKeys;
     }
     
     public void setVotes(int votes) {
