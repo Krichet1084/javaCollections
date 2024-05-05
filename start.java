@@ -9,7 +9,7 @@ public class start{
     static vote currentVote;
     static String[] currentCandidates;
     static ArrayList<Integer> votePerCandidate = new ArrayList<>();
-    static final String clearScreen ="\u001b[2J";
+    static final String CLEARSCREEN ="\u001b[2J";
     
     public static void main(String[] args){
         createVote();
@@ -42,7 +42,7 @@ public class start{
             currentVote.addCandidate(tempFullName, new candidate(tempFullName));
         }
         System.out.println("Successfully added candidates. ");
-        System.out.print(clearScreen);
+        System.out.print(CLEARSCREEN);
     }
 
     public static void createVote(){
@@ -50,7 +50,7 @@ public class start{
         String voteName = stringInput(1);
         allTimeVotes.put(voteName, new vote(voteName));
         currentVote=allTimeVotes.get(voteName);
-        System.out.print(clearScreen);
+        System.out.print(CLEARSCREEN);
     }
 
     public static void startVote(){
@@ -58,21 +58,24 @@ public class start{
         for(int x=0; x<currentCandidates.length-1; x++){
             votePerCandidate.add(0);
         }
-        do{
+        while(true){
             System.out.println("Indicate which candidate you would like to vote for using their number or type quit to end vote");
             for(int x=0; x<currentCandidates.length-1; x++){
                 System.out.println(x+1+". "+currentCandidates[x]);
             }
             System.out.print("Your vote: ");
             if(input.hasNextInt()){
-                int tempVote = getVote()-1;
+                int tempVote = getVote();
                 votePerCandidate.set(tempVote, votePerCandidate.get(tempVote)+1);
+            }
+            else if(input.hasNext("quit")){
+                break;
             }
             else{
                 System.out.println("\nPlease input an integer ");
                 input.next();
             }
-        }while(!(input.hasNext("quit")));
+        }
         System.out.println("Vote complete! ");
         currentVote.voteEnded(votePerCandidate, currentCandidates);
     }
@@ -83,11 +86,11 @@ public class start{
             System.out.print("\nPlease input a valid number for this ammount of candidates ");
             return getVote();
             }
-        return num;
+        return num-1;
     }
 
     public static boolean canStart(){
-        if((currentVote.candidateNum()<2)){
+        if((currentVote.candidateNum()<3)){
             System.out.println("Cannot start vote with less than two candidates, please add more and try again.");
             return false;
         }
