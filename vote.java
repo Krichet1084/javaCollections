@@ -5,7 +5,7 @@ public class vote{
     private int votes;
     private String name;
     private HashMap<String, candidate> candidates = new HashMap<>();
-    private SortedMap<Integer, List<String>> value= new TreeMap<Integer, List<String>>();
+    private SortedMap<Integer, List<String>> value= new TreeMap<>();
 
     public vote(){
         name=null;
@@ -20,7 +20,7 @@ public class vote{
     }
 
     public int candidateNum(){
-        return candidates.size();
+        return candidates.size()+1;
     }
 
     public String[] getCandidateNames(){
@@ -33,6 +33,20 @@ public class vote{
         return candidateKeys;
     }
     
+    public void voteEnded(List<Integer> v, String[] c){
+        for(int x=0; x<c.length-1; x++){
+            value.computeIfAbsent(v.get(x), k -> new ArrayList<String>()).add(c[x]);
+        }
+        for (Map.Entry<Integer, List<String>> entry : value.entrySet()) {
+            System.out.print(entry.getKey() + ": ");
+            System.out.println(entry.getValue());
+        }
+    }
+
+    public boolean checkDuplicate(String c){
+        return (candidates.get(c)!=null);
+    }
+
     public void setVotes(int votes) {
         this.votes = votes;
     }

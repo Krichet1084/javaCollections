@@ -28,11 +28,17 @@ public class start{
         int candidateNum = intInput();
         String tempFullName="John Doe";
         for(int x=0; x<candidateNum; x++){
-            if(x==0)
+            if(x==0){
                 System.out.print("Candidate's full name in the format of first name followed by last name eg. John Doe: ");
-            else
+            }
+            else{
                 System.out.print("Next candidate's full name: ");
+            }
             tempFullName=stringInput(2);
+            if(currentVote.checkDuplicate(tempFullName)){
+                System.out.println("This candidate already exists in this vote");
+                x--;
+            }
             currentVote.addCandidate(tempFullName, new candidate(tempFullName));
         }
         System.out.println("Successfully added candidates. ");
@@ -49,39 +55,39 @@ public class start{
 
     public static void startVote(){
         currentCandidates=currentVote.getCandidateNames();
-        for(int x=0; x<currentCandidates.length; x++){
+        for(int x=0; x<currentCandidates.length-1; x++){
             votePerCandidate.add(0);
         }
         do{
             System.out.println("Indicate which candidate you would like to vote for using their number or type quit to end vote");
-            for(int x=0; x<currentCandidates.length; x++){
+            for(int x=0; x<currentCandidates.length-1; x++){
                 System.out.println(x+1+". "+currentCandidates[x]);
             }
-            int tempVote = getVote();
-            votePerCandidate.set(tempVote, votePerCandidate.get(tempVote));
-            System.out.print(clearScreen);
-            
-        }while(input.hasNext("quit"));
-        System.out.println(currentCandidates);
+            System.out.print("Your vote: ");
+            if(input.hasNextInt()){
+                int tempVote = getVote()-1;
+                votePerCandidate.set(tempVote, votePerCandidate.get(tempVote)+1);
+            }
+            else{
+                System.out.println("\nPlease input an integer ");
+                input.next();
+            }
+        }while(!(input.hasNext("quit")));
+        System.out.println("Vote complete! ");
+        currentVote.voteEnded(votePerCandidate, currentCandidates);
     }
 
     public static int getVote(){
-        if(input.hasNextInt()){
-            int num =input.nextInt();
-            if(num>currentCandidates.length || num==0){
-                System.out.print("Please input a valid number for this ammount of candidates ");
-                return getVote();
+        int num =input.nextInt();
+        if(num>currentCandidates.length-1 || num==0){
+            System.out.print("\nPlease input a valid number for this ammount of candidates ");
+            return getVote();
             }
         return num;
-        }
-        else{
-            System.out.print("Error non-integer input");
-            return 0;
-        }
     }
 
     public static boolean canStart(){
-        if(!(currentVote.candidateNum()>=2)){
+        if((currentVote.candidateNum()<2)){
             System.out.println("Cannot start vote with less than two candidates, please add more and try again.");
             return false;
         }
