@@ -23,6 +23,10 @@ public class vote{
         return candidates.size()+1;
     }
 
+    public void remove(String c){
+        candidates.remove(c);
+    }
+
     public String[] getCandidateNames(){
         String[] candidateKeys = new String[candidateNum()];
         int arrayElement=0;
@@ -62,5 +66,9 @@ public class vote{
 
     public int getVotes() {
         return votes;
+    }
+
+    public String toString(){
+        return "Vote name: "+name;
     }
 }

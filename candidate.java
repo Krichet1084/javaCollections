@@ -1,7 +1,5 @@
 public class candidate{
 
-    private String firstName;
-    private String lastName;
     private String fullName;
 
     public candidate(){
@@ -12,5 +10,8 @@ public class candidate{
         fullName=fn;
     }
     
+    public String toString(){
+        return fullName;
+    }
     
 }
