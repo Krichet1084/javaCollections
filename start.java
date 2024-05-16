@@ -80,8 +80,67 @@ public class start{
     }
 
     public static void linkedListTests(){
-        //add stuff
+        System.out.println("What would you like to test? \n1. Add an element \n2. Access an element \n3. Change an element \n4. Remove an element \n5. Get the size of linked list \n6. Sort linked list");
+        switch(intInput(6)){
+            case(1):
+                linkedListAddElement(linkedListTest);
+                break;
+            case(2):
+                linkedListGetElement(linkedListTest);
+                break;
+            case(4):
+                linkedListRemoveElement(linkedListTest);
+                break;
+        }
+    }
 
+    public static void linkedListAddElement(LinkedList<Double> l){
+        System.out.println("Where would you like to add the element? \n1. First index \n2. Last index \n3. Custom index");
+        switch(intInput(3)){
+            case(1):
+                System.out.print("Please enter a value to be added to the front of the linked list: ");
+                l.addFirst(doubleInput());
+                break;
+            case(2):
+                System.out.print("Please enter a value to be added to the end of the linked list: ");
+                l.addLast(doubleInput());
+                break;
+            case(3):
+                System.out.print("Please enter a custom index: ")
+                int customIndex = intInput(l.size());
+                System.out.print("Please enter a value to be added to the linked list at your custom index: ");
+                l.add(customIndex, doubleInput());
+            default:
+                System.out.print("Huh??");
+        }
+    }
+
+    public static void linkedListRemoveElement(LinkedList<Double> l){
+        System.out.println("Where would you like to remove an element? \n1. First index \n2. Last index \n3. Custom index");
+        switch(intInput(3)){
+            case(1):
+                System.out.print("First element has been removed ");
+                l.removeFirst();
+                break;
+            case(2):
+                System.out.print("Last element has been removed ");
+                l.removeLast();
+                break;
+            case(3):
+                System.out.print("Please enter a custom index: ")
+                l.remove(intInput());
+                System.out.print("Element has been removed ");
+            default:
+                System.out.print("Huh??");
+        }
+    }
+
+    public static void linkedListGetElement(LinkedList<Double> l){
+        System.out.println("What element would you like to get? \n1. First element \n2. Last element \n3. Custom element ");
+        switch(intInput(3)){
+            case(1):
+                System.out.print("The first element is "+l.peakFirst());
+        }
     }
 
     public static void hashSetTests(){
@@ -125,5 +184,16 @@ public class start{
         }
         
     }
-        
+    
+    public static double doubleInput(){
+        double dub;
+        try{
+            dub=input.nextInt();
+            return dub;
+        }
+        catch(InputMismatchException e){
+            System.out.println("Please input an integer. ");
+            return doubleInput();
+        }
+    }
 }
